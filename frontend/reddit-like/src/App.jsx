@@ -4,6 +4,7 @@ import RegisterPage from "./pages/RegisterPage";
 import AuthPage from "./pages/AuthPage";
 import Homepage from "./pages/Homepage";
 import Subreddits from "./pages/Subreddits";
+import Messages from "./pages/Messages"; // Import de la page Messages
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import "./index.css";
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={<AuthPage setUser={setUser} />} />
           <Route path="/homepage" element={<Homepage user={user} setUser={setUser} />} />
           <Route path="/subreddits" element={<Subreddits />} />
+          <Route path="/messages" element={<Messages user={user} setUser={setUser} />} />
         </Routes>
       </div>
     </Router>

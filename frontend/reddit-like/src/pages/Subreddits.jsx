@@ -66,7 +66,7 @@ function Subreddits() {
       {/* Header */}
       <header className="border-b border-gray-200 bg-white p-4 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto flex justify-between items-center">
-          <div className="text-xl font-bold text-gray-800">Threadly</div>
+          <div className="text-xl font-bold text-gray-800"></div>
           
           <div className="flex items-center space-x-4">
             <div className="relative">
@@ -172,7 +172,7 @@ function Subreddits() {
             <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
             </svg>
-            <span className="text-xs mt-1 text-gray-500">Explore</span>
+            <span className="text-xs mt-1 text-gray-500">Rechercher</span>
           </Link>
           
           <Link to="/subreddits" className="flex flex-col items-center">
