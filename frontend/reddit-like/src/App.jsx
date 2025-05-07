@@ -4,8 +4,8 @@ import RegisterPage from "./pages/RegisterPage";
 import AuthPage from "./pages/AuthPage";
 import Homepage from "./pages/Homepage";
 import Subreddits from "./pages/Subreddits";
-import Messages from "./pages/Messages"; // Import de la page Messages
-import Profile from "./pages/Profile"; // Import de la page Profile
+import Messages from "./pages/Messages";
+import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import "./index.css";
 
