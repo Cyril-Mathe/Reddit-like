@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "subs",
+  "info": {
+    "singularName": "sub",
+    "pluralName": "subs",
+    "displayName": "Sub",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "Description": {
+      "type": "text",
+      "maxLength": 25,
+      "required": true,
+      "minLength": 3
+    },
+    "Banner": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "subs"
+    }
+  }
+}

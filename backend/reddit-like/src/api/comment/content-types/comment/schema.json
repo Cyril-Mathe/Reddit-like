@@ -15,7 +15,8 @@
       "type": "string"
     },
     "Description": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "Profile_picture": {
       "type": "media",
@@ -26,25 +27,19 @@
         "files"
       ]
     },
-    "Time_posted": {
-      "type": "date"
-    },
     "Share": {
       "type": "media",
       "multiple": false,
-      "required": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files"
       ]
     },
-    "Count": {
-      "type": "biginteger"
-    },
     "Reward": {
       "type": "media",
       "multiple": false,
-      "required": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files"
@@ -53,7 +48,7 @@
     "Answer": {
       "type": "media",
       "multiple": false,
-      "required": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files"
@@ -62,7 +57,7 @@
     "Up_vote": {
       "type": "media",
       "multiple": false,
-      "required": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files"
@@ -71,7 +66,7 @@
     "Down_vote": {
       "type": "media",
       "multiple": false,
-      "required": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files"
@@ -80,17 +75,23 @@
     "Share_text": {
       "type": "string",
       "default": "Share",
-      "required": true
+      "required": false
     },
     "Answer_text": {
       "type": "string",
       "default": "Answer",
-      "required": true
+      "required": false
     },
     "Reward_text": {
       "type": "string",
       "default": "Reward",
-      "required": true
+      "required": false
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "comments"
     }
   }
 }
