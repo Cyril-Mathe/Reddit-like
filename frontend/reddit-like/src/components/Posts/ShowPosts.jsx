@@ -32,7 +32,7 @@ function Post({ post, toggleFollow, followedPosts }) {
             </div>
             <div className="p-4">
                 <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
-                <p className="text-gray-700 mb-4 dark:text-white">{post.description}</p>
+                <p className="text-gray-700 mb-4 dark:text-white line-clamp-5">{post.description}</p>
                 {post.media && (
                     <div className="rounded-lg overflow-hidden mb-4">
                         <img 

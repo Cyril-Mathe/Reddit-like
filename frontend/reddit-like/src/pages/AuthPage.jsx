@@ -29,6 +29,8 @@ function Auth({ setUser }) {
       const data = await response.json();
       localStorage.setItem("token", data.jwt)
       localStorage.setItem("userId", data.user.id);
+      localStorage.setItem("username", data.user.username);
+      localStorage.setItem("email", data.user.email);
       setUser(data.user);
       navigate("/homepage");
     

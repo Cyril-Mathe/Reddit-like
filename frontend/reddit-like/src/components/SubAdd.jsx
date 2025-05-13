@@ -9,11 +9,15 @@ function AddSubscriptionPage() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [banner, setBanner] = useState(null);
+  const token = localStorage.getItem('token');
 
   const checkNameExists = async (name) => {
     const response = await fetch(
-      `http://localhost:1337/api/subs?filters[Name][$eqi]=${name}`
-    );
+      `http://localhost:1337/api/subs?filters[Name][$eqi]=${name}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+  });
     const data = await response.json();
     return data.data.length > 0;
   };
@@ -21,7 +25,7 @@ function AddSubscriptionPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem('token');
+    
     const userId = localStorage.getItem('userId');
 
     if (!token) {
@@ -49,35 +53,39 @@ function AddSubscriptionPage() {
       let imageId = null;
 
       if (banner) {
-        const imageFormData = new FormData();
-        imageFormData.append('files', banner);
+  const imageFormData = new FormData();
+  imageFormData.append('files', banner);
 
-        const uploadRes = await fetch('http://localhost:1337/api/upload', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: imageFormData,
-        });
+  // console.log('Début de l\'upload du fichier :', banner.name);
 
-        if (!uploadRes.ok) {
-          const errorData = await uploadRes.json();
-          throw new Error(errorData?.error?.message || 'Échec de l’upload de l’image');
-        }
+  // const uploadRes = await fetch('http://localhost:1337/api/upload', {
+  //   method: 'POST',
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  //   body: imageFormData,
+  // });
 
-        const uploadData = await uploadRes.json();
-        imageId = uploadData?.[0]?.id;
+  // if (!uploadRes.ok) {
+  //   const errorData = await uploadRes.json();
+  //   console.error('Erreur lors de l\'upload :', errorData);
+  //   throw new Error(errorData?.error?.message || 'Échec de l’upload de l’image');
+  // }
 
-        if (!imageId) {
-          throw new Error('Échec de l’upload');
-        }
-      }
+  // const uploadData = await uploadRes.json();
+  // console.log('Upload terminé, données reçues :', uploadData);
+
+  // imageId = uploadData?.[0]?.id;
+
+  // if (!imageId) {
+  //   throw new Error('Échec de l’upload');
+  // }
+}
 
       const payload = {
         data: {
           Name: name,
           Description: description,
-          Banner: imageId ? [imageId] : [],
           author: { id: parseInt(userId, 10) },
         },
       };
@@ -146,7 +154,7 @@ function AddSubscriptionPage() {
                 type="file"
                 id="banner"
                 onChange={(e) => setBanner(e.target.files[0])}
-                required
+                // required
                 className="block w-full text-sm text-gray-600
                   file:mr-4 file:py-2 file:px-4
                   file:rounded-lg file:border-0
