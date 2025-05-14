@@ -5,27 +5,22 @@ import { Link } from "react-router-dom";
 
 function Sub( user, setUser) {
   const [subs, setSubs] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [citation, setCitation] = useState('');
   const token = localStorage.getItem("token");
 
 
-  // Choisir une citation
-  const Mearde = {
-    
-    "Cyril": "Cyril : ''Commit to the bitbucket'' ",
-    "Laurent": "Laurent : ''Pull request master'' ",
-    "Arthur": "Arthur : ''Push it to the limit'' ",
-    "Océane": "Océnae : ''Merge like a boss'' ",
-    "William": "William : ''Fetch like a pro'' ",
-  }
   
   // Thread informations
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:1337/api/subs?populate=*" , {
+
+          "http://localhost:1337/api/subs?populate=author&populate=Banner",
+          {
+
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -35,19 +30,13 @@ function Sub( user, setUser) {
         setSubs(json.data);
       } catch (error) {
         console.error("Erreur de chargement :", error);
-      } finally {
-        setTimeout(() => setLoading(false), 574); // Timer
       }
     };
-
-    // 
-    const randomPhrase = Object.values(Mearde)[Math.floor(Math.random() * Object.values(Mearde).length)];
-    setCitation(randomPhrase);
 
     fetchData();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (documentId) => {
     const confirm = window.confirm("Voulez-vous supprimer ce Thread ?");
     if (!confirm) return;
 
@@ -56,7 +45,7 @@ function Sub( user, setUser) {
         alert("Vous devez être connecté pour supprimer un Thread.");
       }
 
-      const res = await fetch(`http://localhost:1337/api/subs/${id}`, {
+      const res = await fetch(`http://localhost:1337/api/subs/${documentId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -65,7 +54,7 @@ function Sub( user, setUser) {
       });
 
       if (res.ok) {
-        setSubs((prev) => prev.filter((item) => item.id !== id));
+        setSubs((prev) => prev.filter((item) => item.documentId !== documentId));
         alert("Supprimé à jamais !");
       } else {
         alert("Erreur lors de la suppression.");
@@ -75,24 +64,6 @@ function Sub( user, setUser) {
       alert("Une erreur est survenue.");
     }
   };
-
-  if (loading) {
-    return (
-      <div className="w-full h-screen bg-gray-500 fixed top-0 left-0 transition-transform duration-700">
-        <div className="w-full h-full flex flex-col justify-center items-center gap-8">
-          <img src="./assets/images/threadly.png" alt="Logo" className="w-75 h-auto" />
-          <p className="text-5xl italic font-serif text-gray-300">{citation}</p>
-          <SyncLoader
-            loading
-            color="#D1D5DC"
-            margin={5}
-            size={30}
-            speedMultiplier={1}
-          />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -128,15 +99,13 @@ function Sub( user, setUser) {
 
               <div className="flex gap-2">
                 <button
-                  onClick={() => handleDelete(item.id)}
+                  onClick={() => handleDelete(item.documentId)}
                   className="flex-1 bg-amber-200 text-white px-4 py-2 rounded hover:bg-red-600 transition"
                   > Supprimer
                 </button>
-                <button
-                  onClick={() => console.log('Rejoindre', item.id)}
-                  className="flex-1 bg-green-200 text-white px-4 py-2 rounded hover:bg-green-500 transition"
-                > Rejoindre
-                </button>
+                <Link to={`/SubsPage/${item.documentId}`} className="flex-1 bg-green-200 text-white px-4 py-2 rounded hover:bg-green-500 transition">
+                  Voir
+                </Link>
               </div>
             </div>
           ))}

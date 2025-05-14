@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "games",
+  "info": {
+    "singularName": "game",
+    "pluralName": "games",
+    "displayName": "game"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "board": {
+      "type": "json"
+    },
+    "gameStatus": {
+      "type": "enumeration",
+      "enum": [
+        "waiting",
+        "ongoing",
+        "finished"
+      ]
+    },
+    "winner": {
+      "type": "string"
+    },
+    "creator": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "gamesCreated"
+    },
+    "opponent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "gamesJoined"
+    }
+  }
+}

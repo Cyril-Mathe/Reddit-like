@@ -36,7 +36,6 @@ function AffichagePost() {
     useEffect(() => {
         fetchTest();
     }, []);
-    console.log(test);
 
     return (
         <div>

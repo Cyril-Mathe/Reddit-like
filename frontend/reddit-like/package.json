@@ -14,12 +14,15 @@
     "@liveblocks/react": "^2.24.1",
     "@tailwindcss/vite": "^4.1.4",
     "axios": "^1.9.0",
+    "js-dos": "^8.3.17",
     "jwt-decode": "^4.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.5.3",
     "react-spinners": "^0.17.0",
     "react-toastify": "^11.0.5",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "tailwindcss": "^4.1.4"
   },
   "devDependencies": {

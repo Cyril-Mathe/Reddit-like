@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from './Sidebar/Sidebar';
+import {jwtDecode} from 'jwt-decode';
 
 function AddSubscriptionPage() {
   const navigate = useNavigate();
@@ -10,23 +11,27 @@ function AddSubscriptionPage() {
   const [description, setDescription] = useState('');
   const [banner, setBanner] = useState(null);
   const token = localStorage.getItem('token');
+  const userId = token ? jwtDecode(token).id : null;
+
 
   const checkNameExists = async (name) => {
     const response = await fetch(
-      `http://localhost:1337/api/subs?filters[Name][$eqi]=${name}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-  });
+      `http://localhost:1337/api/subs?filters[Name][$eqi]=${name}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
     const data = await response.json();
     return data.data.length > 0;
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
-    const userId = localStorage.getItem('userId');
 
     if (!token) {
       toast.error('Vous devez être connecté pour ajouter un Thread.');
@@ -82,38 +87,32 @@ function AddSubscriptionPage() {
   // }
 }
 
-      const payload = {
-        data: {
-          Name: name,
-          Description: description,
-          author: { id: parseInt(userId, 10) },
-        },
-      };
 
-      const res = await fetch('http://localhost:1337/api/subs', {
+      const res = await fetch('http://localhost:1337/api/subs?populate=author', {
+
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          Name: name,
+          Description: description,
+          Banner: imageId,
+          posts: [],
+        }),
       });
 
-      const responseData = await res.json();
+      console.log(res);
 
-      if (!res.ok) {
-        console.error('Erreur lors de l\'ajout :', responseData);
-        throw new Error(responseData?.error?.message || 'Erreur inconnue');
-      }
-
-      if (responseData.data) {
+      if (res.status == 200) {
         toast.success('Thread ajouté avec succès !');
         setTimeout(() => navigate('/subs'), 1500);
       } else {
-        toast.error('Erreur lors de l\'ajout');
-        console.error('Erreur lors de l\'ajout :', responseData);
+        toast.error('Erreur lors de l\'ajout du Thread 1');
       }
     } catch (error) {
+      console.error('Erreur lors de l\'ajout du Thread:', error);
       toast.error(error.message || 'Une erreur est survenue');
     }
   };
@@ -154,7 +153,7 @@ function AddSubscriptionPage() {
                 type="file"
                 id="banner"
                 onChange={(e) => setBanner(e.target.files[0])}
-                // required
+
                 className="block w-full text-sm text-gray-600
                   file:mr-4 file:py-2 file:px-4
                   file:rounded-lg file:border-0

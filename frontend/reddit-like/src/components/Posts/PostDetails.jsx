@@ -13,13 +13,13 @@ export default function PostDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
-const UserId = token ? jwtDecode(token).id : null;
+  const UserId = token ? jwtDecode(token).id : null;
 
   async function fetchPostDetails() {
     setLoading(true);
     try {
       const res = await axios.get(
-        `http://localhost:1337/api/posts/${documentId}?populate=author`,
+        `http://localhost:1337/api/posts/${documentId}?populate=author,media`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -39,7 +39,6 @@ const UserId = token ? jwtDecode(token).id : null;
         );
         if (commentsRes.status === 200) {
           setComments(commentsRes.data.data);
-          console.log(commentsRes.data.data);
         } else {
           throw new Error("Erreur lors de la récupération des commentaires");
         }
@@ -82,46 +81,50 @@ const UserId = token ? jwtDecode(token).id : null;
     }
   }
 
-
   useEffect(() => {
     fetchPostDetails();
   }, [documentId]);
 
   async function handleDeleteComment(documentId) {
     try {
-      const res = await axios.delete(`http://localhost:1337/api/comments/${documentId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-  
+      const res = await axios.delete(
+        `http://localhost:1337/api/comments/${documentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       if (res.status === 200) {
-        setComments((prevComments) => prevComments.filter((comment) => comment.documentId !== documentId));
+        setComments((prevComments) =>
+          prevComments.filter((comment) => comment.documentId !== documentId)
+        );
         alert("Commentaire supprimé avec succès !");
         setNewComment("");
-      } 
+      }
     } catch (err) {
       alert("Vous ne pouvez pas supprimer ce commentaire !");
     }
   }
 
-    async function handleUpdateComment(commentId, updatedText) {
+  async function handleUpdateComment(commentId, updatedText) {
     try {
       const res = await axios.put(
         `http://localhost:1337/api/comments/${commentId}`,
         {
-          "data": {
-            "Description": updatedText,
+          data: {
+            Description: updatedText,
           },
         },
         {
           headers: {
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
       );
-  
+
       if (res.status === 200) {
         setComments((prevComments) =>
           prevComments.map((comment) =>
@@ -148,6 +151,15 @@ const UserId = token ? jwtDecode(token).id : null;
           </h3>
           <h1 className="text-2xl font-bold mb-2">{post.title}</h1>
           <p className="text-violet-700">{post.description}</p>
+          {post.media && (
+            <div className="rounded-lg overflow-hidden mb-4">
+              <img
+                src={"http://localhost:1337" + post.media[0].url}
+                alt="Illustration"
+                className="w-full h-auto"
+              />
+            </div>
+          )}
         </div>
       )}
 

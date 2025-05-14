@@ -56,6 +56,12 @@
       "relation": "oneToMany",
       "target": "api::comment.comment",
       "mappedBy": "comments"
+    },
+    "sub": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::sub.sub",
+      "inversedBy": "posts"
     }
   }
 }
