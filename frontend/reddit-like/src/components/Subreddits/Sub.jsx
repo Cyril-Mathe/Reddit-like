@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { SyncLoader } from "react-spinners";
-import Sidebar from "./Sidebar/Sidebar";
+import Sidebar from "../Sidebar/Sidebar";
 import { Link } from "react-router-dom";
 
 function Sub( user, setUser) {
@@ -80,6 +80,7 @@ function Sub( user, setUser) {
                 <img
                   src={`http://localhost:1337${item.Banner.url}`}
                   alt="banner"
+                  required
                   className="w-full h-40 object-cover rounded-xl mb-4"
                 />
               )}
