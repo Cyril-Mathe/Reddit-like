@@ -4,9 +4,8 @@ import RegisterPage from "./pages/RegisterPage";
 import AuthPage from "./pages/AuthPage";
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile"; // Import de la page Profile
-import Sub from "./components/Sub.jsx";
-import Paint from "./components/Painting/Paint.jsx";
-import SubAdd from "./components/SubAdd.jsx";
+import Sub from "./components/Subreddits/Sub.jsx";
+import SubAdd from "./components/Subreddits/SubAdd.jsx";
 import SubPage from "./pages/SubPage";
 import "./style.css";
 import ModifierPost from "./components/Posts/ModifierPost.jsx";

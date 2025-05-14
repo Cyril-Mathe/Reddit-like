@@ -39,7 +39,7 @@ export default function ModifierPost() {
   async function fetchSupprimer() {
     setLoading(true)
     try {
-      const url = `http://localhost:1338/api/posts/${documentId}`
+      const url = `http://localhost:1337/api/posts/${documentId}`
 
 
       const response = await fetch(url, {
@@ -73,7 +73,7 @@ export default function ModifierPost() {
     try {
       const token = localStorage.getItem('token');
       const res = await axios.delete(
-        `http://localhost:1338/api/posts/${id}`, {
+        `http://localhost:1337/api/posts/${id}`, {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`,
@@ -113,7 +113,7 @@ export default function ModifierPost() {
                   </p>
                   {image && (
                     <img
-                      src={`http://localhost:1338${image}`}
+                      src={`http://localhost:1337${image}`}
                       alt="Illustration"
                       className="w-full h-auto"
                     />

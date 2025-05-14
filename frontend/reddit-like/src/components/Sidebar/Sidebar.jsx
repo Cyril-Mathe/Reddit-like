@@ -6,18 +6,18 @@ import axios from 'axios';
 
 function Sidebar({ setUser }) {
     const navigate = useNavigate();
-    
+
     // État pour suivre le mode actuel
     const [isDarkMode, setIsDarkMode] = useState(
-        localStorage.theme === 'dark' || 
+        localStorage.theme === 'dark' ||
         (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
     );
-    
+
     // Fonction pour basculer le mode sombre
     const toggleDarkMode = () => {
         const newDarkMode = !isDarkMode;
         setIsDarkMode(newDarkMode);
-        
+
         if (newDarkMode) {
             document.documentElement.classList.add('dark');
             localStorage.theme = 'dark';
@@ -26,7 +26,7 @@ function Sidebar({ setUser }) {
             localStorage.theme = 'light';
         }
     };
-    
+
     // Initialiser le mode au chargement du composant
     useEffect(() => {
         if (isDarkMode) {
@@ -37,7 +37,7 @@ function Sidebar({ setUser }) {
             localStorage.theme = 'light';
         }
     }, []);
-    
+
     const handleLogout = () => {
         console.log("Déconnexion déclenchée");
         localStorage.removeItem("token");
@@ -47,21 +47,21 @@ function Sidebar({ setUser }) {
     };
 
     return (
-        <div className="hidden md:block w-64 bg-white h-screen fixed left-0 top-0 p-5 border-r border-[#374151] dark:bg-[#1A1C23] dark:border-gray-700">
+        <div className="hidden md:block w-64 bg-white h-screen fixed left-0 top-0 p-5 dark:bg-[#1A1C23]">
             <div className="mb-6">
-                <div className="h-8">
-                    <img src="https://raw.githubusercontent.com/Cyril-Mathe/Reddit-like/refs/heads/feature/subreddits/frontend/reddit-like/src/pages/logo.png" alt="Logo" className="h-full dark:text-white" />
+                <div
+                    className="flex justify-center h-12 cursor-pointer transition-transform duration-300 hover:scale-105"
+                    onClick={toggleDarkMode}
+                    title={isDarkMode ? "Passer en mode clair" : "Passer en mode sombre"}
+                >
+                    {isDarkMode ? (
+                        <img src="/assets/images/threadly-light.png" alt="Logo (mode sombre)" className="h-full" />
+                    ) : (
+                        <img src="/assets/images/threadly.png" alt="Logo" className="h-full" />
+                    )}
                 </div>
             </div>
             <div className="space-y-6 mt-8">
-                <div className="flex items-center space-x-3 text-gray-800 font-medium">
-                    <Link to="/homepage" className="flex items-center space-x-3 text-gray-600 dark:text-white">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                        </svg>
-                        <span>Accueil</span>
-                    </Link>
-                </div>
                 <div className="space-y-6 mt-8">
                     <Link to="/homepage" className="flex items-center space-x-3 text-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white hover:shadow-sm p-2 rounded-lg transition-all duration-200">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -75,10 +75,9 @@ function Sidebar({ setUser }) {
                         </svg>
                         <span>Communautés</span>
                     </Link>
-                    <Link to="/profile" className="flex items-center space-x-3 text-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white hover:shadow-sm p-2 rounded-lg transition-all duration-200">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
+                    <Link to="/profile" className="flex items-center space-x-3 text-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white hover:shadow-sm p-2 rounded-lg transition-all duration-200">               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
                         <span>Profil</span>
                     </Link>
                     <div className="flex items-center space-x-3 text-gray-600 cursor-pointer hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white hover:shadow-sm p-2 rounded-lg transition-all duration-200">
