@@ -225,6 +225,7 @@ export default function Profile() {
                     </form>
                 </div>
             )}
+            
             {/* <Sidebar /> */}
         </div>
     )
