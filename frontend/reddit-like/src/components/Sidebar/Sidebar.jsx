@@ -6,6 +6,37 @@ import axios from 'axios';
 
 function Sidebar({ setUser }) {
     const navigate = useNavigate();
+    const [username, setUsername] = useState(null);
+    const [userPfp, setUserPfp] = useState(null);
+    
+
+    const token = localStorage.getItem("token");
+
+
+
+    const fetchUserInfo = async () => {
+
+        if (!token) {
+            console.error("Il est où ton Token ?");
+            return;
+        }
+
+        try {
+            const response = await axios.get("http://localhost:1337/api/users/me?populate=*", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setUsername(response.data.username);
+
+            // PFP
+            if (response.data.Profilpic && response.data.Profilpic) {
+                setUserPfp(response.data.Profilpic.url);
+            }
+        } catch (error) {
+            console.error("ça marche pas ", error);
+        }
+    }
 
     // État pour suivre le mode actuel
     const [isDarkMode, setIsDarkMode] = useState(
@@ -36,6 +67,8 @@ function Sidebar({ setUser }) {
             document.documentElement.classList.remove('dark');
             localStorage.theme = 'light';
         }
+
+        fetchUserInfo();
     }, []);
 
     const handleLogout = () => {
@@ -63,6 +96,24 @@ function Sidebar({ setUser }) {
             </div>
             <div className="space-y-6 mt-8">
                 <div className="space-y-6 mt-8">
+                    <div className='flex items-center space-x-4'>
+                        {userPfp ? (
+                            <img src={`http://localhost:1337${userPfp}`}
+                            alt="Profil Picture" 
+                            className="w-15 h-15 rounded-full" />
+                        ) : (
+                            <img src="https://cdn.vectorstock.com/i/500p/66/13/default-avatar-profile-icon-social-media-user-vector-49816613.jpg"
+                            alt="Profil Picture Undefined"
+                            className="w-15 h-15 rounded-full" />
+                        )}
+                        <div>
+                            {username ? (
+                                <span className="text-gray-800 dark:text-white font-semibold">{username}</span>
+                            ) : (
+                                <span className="text-gray-500">..</span>
+                            )}
+                        </div>
+                    </div>
                     <Link to="/homepage" className="flex items-center space-x-3 text-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white hover:shadow-sm p-2 rounded-lg transition-all duration-200">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>

@@ -42,7 +42,7 @@ function AffichagePost() {
             {loading && <p>Chargement...</p>}
             {error && <p>Erreur : {error.message}</p>}
             <div>
-                {test.map( (el) => {
+                {/* {test.map( (el) => {
                 return (
                     <div>
                         <p>{el.title}</p>
@@ -50,7 +50,7 @@ function AffichagePost() {
                         <p>{el.description}</p>
                         <img src={"http://localhost:1337" + el.media[0].url}></img>
                         <img src={"http://localhost:1337" + el.profil_pictures[0].url}></img>
-                    </div>)})}
+                    </div>)})} */}
                 </div>
         </div>
     );

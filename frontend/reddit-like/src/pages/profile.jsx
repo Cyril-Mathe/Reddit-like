@@ -9,11 +9,13 @@ export default function Profile({ user, setUser }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [editMode, setEditMode] = useState(false);
-    const [avatar, setAvatar] = useState(null);
-    const [newAvatar, setNewAvatar] = useState(null);
+    const [Profilpic, setProfilpic] = useState(null);
+    const [newProfilpic, setNewProfilpic] = useState(null);
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef(null);
     
+ // !! 🚑️ avatar INVALIDE CHANGER PAR Profilpic 🚑️ !!
+
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -27,7 +29,7 @@ export default function Profile({ user, setUser }) {
     const fetchUserData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:1337/api/users/me?populate=avatar', {
+            const response = await axios.get('http://localhost:1337/api/users/me?populate=Profilpic', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -40,9 +42,9 @@ export default function Profile({ user, setUser }) {
                 bio: response.data.bio || ''
             });
             
-            // Récupérer l'avatar s'il existe
-            if (response.data.avatar && response.data.avatar.url) {
-                setAvatar(response.data.avatar.url);
+            // Récupérer la photo de profil s'il existe
+            if (response.data.Profilpic && response.data.Profilpic.url) {
+                setProfilpic(response.data.Profilpic.url);
             }
             
             // Récupérer les posts de l'utilisateur
@@ -88,31 +90,31 @@ export default function Profile({ user, setUser }) {
         });
     };
 
-    const handleAvatarClick = () => {
+    const handleProfilpicClick = () => {
         fileInputRef.current.click();
     };
 
-    const handleAvatarChange = (e) => {
+    const handleProfilpicChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            setNewAvatar(file);
+            setNewProfilpic(file);
             
             // Afficher un aperçu de l'image
             const reader = new FileReader();
             reader.onload = (e) => {
-                setAvatar(e.target.result);
+                setProfilpic(e.target.result);
             };
             reader.readAsDataURL(file);
         }
     };
 
-    const uploadAvatar = async () => {
-        if (!newAvatar) return null;
+    const uploadProfilpic = async () => {
+        if (!newProfilpic) return null;
         
         try {
             setUploading(true);
             const formData = new FormData();
-            formData.append('files', newAvatar);
+            formData.append('files', newProfilpic);
             
             const uploadRes = await axios.post('http://localhost:1337/api/upload', formData, {
                 headers: {
@@ -124,7 +126,7 @@ export default function Profile({ user, setUser }) {
             setUploading(false);
             return uploadRes.data[0].id; // Retourne l'ID de l'image uploadée
         } catch (error) {
-            console.error("Erreur lors de l'upload de l'avatar:", error);
+            console.error("Erreur lors de l'upload de la photo de profil:", error);
             setUploading(false);
             return null;
         }
@@ -134,11 +136,11 @@ export default function Profile({ user, setUser }) {
         e.preventDefault();
         
         try {
-            let avatarId = null;
+            let ProfilpicId = null;
             
-            // Si un nouvel avatar a été sélectionné, on l'upload
-            if (newAvatar) {
-                avatarId = await uploadAvatar();
+            // Si une nouvelle photo de profil a été sélectionnée, on l'upload
+            if (newProfilpic) {
+                ProfilpicId = await uploadProfilpic();
             }
             
             // Préparation des données à envoyer - Exclure email qui n'est pas modifiable
@@ -147,12 +149,12 @@ export default function Profile({ user, setUser }) {
                 bio: formData.bio
             };
             
-            // Si on a un ID d'avatar, on l'ajoute aux données
-            if (avatarId) {
-                updateData.avatar = avatarId;
+            // Si on a un ID de photo de profil, on l'ajoute aux données
+            if (ProfilpicId) {
+                updateData.Profilpic = ProfilpicId;
             }
             
-            const response = await axios.put('http://localhost:1337/api/users/me', updateData, {
+            const response = await axios.put('http://localhost:1337/api/users/me?populate=*', updateData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -161,7 +163,7 @@ export default function Profile({ user, setUser }) {
             
             setUserProfile(response.data);
             setEditMode(false);
-            setNewAvatar(null);
+            setNewProfilpic(null);
             alert("Profil mis à jour avec succès !");
             
             // Rafraîchir les données du profil
@@ -187,8 +189,8 @@ export default function Profile({ user, setUser }) {
     return (
         <div className="min-h-screen bg-[#e8f4e8]">
             <Navbar user={user} setUser={setUser} />
-            <div className="container mx-auto px-4 py-8">
-                <div className="max-w-2xl mx-auto">
+            <div className="container mx-auto px-4 py-8 ml-64">
+                <div className="max-w-2xl mx-auto ml-64"> 
                     {loading ? (
                         <p className="text-center text-gray-600 p-4 bg-white rounded-xl shadow-sm mb-4">Chargement...</p>
                     ) : error ? (
@@ -201,13 +203,13 @@ export default function Profile({ user, setUser }) {
                                     <div className="flex items-center">
                                         <div 
                                             className={`w-20 h-20 rounded-full overflow-hidden mr-4 flex items-center justify-center bg-gray-200 ${editMode ? 'cursor-pointer hover:opacity-80' : ''}`}
-                                            onClick={editMode ? handleAvatarClick : undefined}
+                                            onClick={editMode ? handleProfilpicClick : undefined}
                                             title={editMode ? "Cliquez pour changer d'image" : ""}
                                         >
-                                            {avatar ? (
+                                            {Profilpic ? (
                                                 <img 
-                                                    src={avatar.startsWith('data:') ? avatar : `http://localhost:1337${avatar}`} 
-                                                    alt="Avatar" 
+                                                    src={Profilpic.startsWith('data:') ? Profilpic : `http://localhost:1337${Profilpic}`} 
+                                                    alt="Photo de profil" 
                                                     className="w-full h-full object-cover"
                                                 />
                                             ) : (
@@ -221,7 +223,7 @@ export default function Profile({ user, setUser }) {
                                                     accept="image/*"
                                                     className="hidden"
                                                     ref={fileInputRef}
-                                                    onChange={handleAvatarChange}
+                                                    onChange={handleProfilpicChange}
                                                 />
                                             )}
                                         </div>
@@ -247,7 +249,7 @@ export default function Profile({ user, setUser }) {
                                             {editMode && (
                                                 <div className="mb-4 text-center">
                                                     <p className="text-sm text-gray-500 mb-2">
-                                                        {newAvatar ? 'Nouvelle image sélectionnée' : 'Cliquez sur votre avatar pour changer d\'image'}
+                                                        {newProfilpic ? 'Nouvelle image sélectionnée' : 'Cliquez sur votre photo de profil pour changer d\'image'}
                                                     </p>
                                                 </div>
                                             )}
