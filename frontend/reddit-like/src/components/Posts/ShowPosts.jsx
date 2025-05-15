@@ -42,11 +42,11 @@ function Post({ post, toggleFollow, followedPosts, userId }) {
     <div className="bg-white m-3 rounded-xl shadow-sm overflow-hidden dark:bg-[#334155] dark:text-white">
       <div className="p-4 border-b border-gray-100 flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          {post.author.avatar && (
+          {post.author?.avatar && (
           <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
             <img
               src={
-                "http://localhost:1337" + post.author.avatar.url ||
+                "http://localhost:1337" + post.author?.avatar.url ||
                 "https://randomuser.me/api/portraits/men/1.jpg"
               }
               alt="Profil"
@@ -108,7 +108,7 @@ function Post({ post, toggleFollow, followedPosts, userId }) {
           )}
         </div>
         <p className="text-gray-700 mb-4 dark:text-white break-all">{post.description}</p>
-        {post.media && (
+        {post?.media && (
           <div className="rounded-lg overflow-hidden mb-4">
             <img
               src={"http://localhost:1337" + post.media[0].url}
