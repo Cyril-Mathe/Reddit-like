@@ -1,0 +1,13 @@
+FROM node:18
+
+WORKDIR /app
+
+COPY frontend/reddit-like/package*.json ./
+
+RUN npm install
+
+COPY frontend/reddit-like/ ./
+
+EXPOSE 3030
+
+CMD ["npm", "run", "dev"]

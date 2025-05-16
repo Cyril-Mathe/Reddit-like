@@ -1,0 +1,15 @@
+FROM node:18
+
+WORKDIR /app
+
+COPY backend/reddit-like/package*.json ./
+
+RUN npm install
+
+COPY backend/reddit-like/ ./
+
+COPY backend/reddit-like/.env ./
+
+EXPOSE 1337
+
+CMD ["npm", "run", "develop"]

@@ -1,0 +1,25 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    working_dir: /app
+    ports:
+      - "3030:3030"
+    volumes:
+      - ./frontend/reddit-like:/app
+    command: npm run dev
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    working_dir: /app
+    ports:
+      - "1337:1337"
+    volumes:
+      - ./backend/reddit-like:/app
+    env_file:
+      - ./backend/reddit-like/.env
+    depends_on:
+      - frontend
