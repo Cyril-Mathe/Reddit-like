@@ -16,7 +16,7 @@ function AddSubscriptionPage() {
 
   const checkNameExists = async (name) => {
     const response = await fetch(
-      `http://localhost:1337/api/subs?filters[Name][$eqi]=${name}`,
+      `${import.meta.env.VITE_NEON_URL}/api/subs?filters[Name][$eqi]=${name}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ function AddSubscriptionPage() {
         const imageFormData = new FormData();
         imageFormData.append('files', banner);
 
-        const uploadRes = await fetch('http://localhost:1337/api/upload', {
+        const uploadRes = await fetch(`${import.meta.env.VITE_NEON_URL}/api/upload`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -80,7 +80,7 @@ function AddSubscriptionPage() {
         }
       }
 
-      const res = await fetch('http://localhost:1337/api/subs?populate=author', {
+      const res = await fetch(`${import.meta.env.VITE_NEON_URL}/api/subs?populate=author`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

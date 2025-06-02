@@ -26,7 +26,7 @@ export default function PostDetails() {
   async function fetchPostDetails() {
     try {
       const res = await axios.get(
-        `http://localhost:1337/api/posts/${documentId}?populate=author,media`,
+        `${import.meta.env.VITE_NEON_URL}/api/posts/${documentId}?populate=author,media`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -34,7 +34,7 @@ export default function PostDetails() {
         setPost(res.data.data);
 
         const commentsRes = await axios.get(
-          `http://localhost:1337/api/comments?filters[comments][documentId][$eq]=${documentId}&populate=author`,
+          `${import.meta.env.VITE_NEON_URL}/api/comments?filters[comments][documentId][$eq]=${documentId}&populate=author`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -55,7 +55,7 @@ export default function PostDetails() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `http://localhost:1337/api/comments`,
+        `${import.meta.env.VITE_NEON_URL}/api/comments`,
         {
           data: {
             Description: newComment,
@@ -82,7 +82,7 @@ export default function PostDetails() {
 
   async function handleDeleteComment(commentId) {
     try {
-      await axios.delete(`http://localhost:1337/api/comments/${commentId}`, {
+      await axios.delete(`${import.meta.env.VITE_NEON_URL}/api/comments/${commentId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -95,7 +95,7 @@ export default function PostDetails() {
   async function handleUpdateComment(commentId, updatedText) {
     try {
       const res = await axios.put(
-        `http://localhost:1337/api/comments/${commentId}`,
+        `${import.meta.env.VITE_NEON_URL}/api/comments/${commentId}`,
         {
           data: {
             author: UserId,
@@ -152,7 +152,7 @@ export default function PostDetails() {
           </p>
           {post.media?.[0]?.url && (
             <img
-              src={`http://localhost:1337${post.media[0].url}`}
+              src={`${import.meta.env.VITE_NEON_URL}${post.media[0].url}`}
               alt="Illustration"
               className="w-full rounded-lg"
             />

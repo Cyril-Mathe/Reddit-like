@@ -1,5 +1,5 @@
 export async function fetchPosts() {
-    const url = "http://localhost:1337/api/posts?populate=author.avatar&populate=media&populate=sub&populate=comments";
+    const url = `${import.meta.env.VITE_NEON_URL}/api/posts?populate=author.avatar&populate=media&populate=sub&populate=comments`;
 
     const token = localStorage.getItem("token");
 
@@ -28,7 +28,7 @@ export async function fetchPosts() {
 }
 
 export async function fetchSubsPosts(documentId) {
-    const url = `http://localhost:1337/api/posts?filters[sub][documentId][$eqi]=${documentId}&populate[0]=author.avatar&populate[1]=media&populate[2]=comments&populate[3]=sub`;
+    const url = `${import.meta.env.VITE_NEON_URL}/api/posts?filters[sub][documentId][$eqi]=${documentId}&populate[0]=author.avatar&populate[1]=media&populate[2]=comments&populate[3]=sub`;
     const token = localStorage.getItem("token");
 
     const response = await fetch(url, {
@@ -54,7 +54,7 @@ export async function fetchSubsPosts(documentId) {
 }
 
 export async function fetchSubAuthor(subDocumentId) {
-    const url = `http://localhost:1337/api/subs?filters[documentId][$eqi]=${subDocumentId}&populate[0]=author&populate[1]=posts`;
+    const url = `${import.meta.env.VITE_NEON_URL}/api/subs?filters[documentId][$eqi]=${subDocumentId}&populate[0]=author&populate[1]=posts`;
     const token = localStorage.getItem("token");
 
     const response = await fetch(url, {
@@ -75,7 +75,7 @@ export async function fetchSubAuthor(subDocumentId) {
 
 export async function fetchUserAvatar() {
 
-    const url = "http://localhost:1337/api/posts?populate[0]=comments&populate[author][populate][0]=avatar";    
+    const url = `${import.meta.env.VITE_NEON_URL}/api/posts?populate[0]=comments&populate[author][populate][0]=avatar`;    
     const token = localStorage.getItem("token");
 
     const response = await fetch(url, {

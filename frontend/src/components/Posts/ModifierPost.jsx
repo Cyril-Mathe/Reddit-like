@@ -20,7 +20,7 @@ export default function ModifierPost() {
     async function fetchModifier() {
         setLoading(true)
         try {
-            const url = `http://localhost:1337/api/posts/${id}`;
+            const url = `${import.meta.env.VITE_NEON_URL}/api/posts/${id}`;
 
 
             const response = await fetch(url, {
@@ -74,7 +74,7 @@ export default function ModifierPost() {
                 const formData = new FormData();
                 newimage.forEach(file => formData.append('files', file))
 
-                const img = await axios.post('http://localhost:1337/api/upload',
+                const img = await axios.post(`${import.meta.env.VITE_NEON_URL}/api/upload`,
                     formData,
                     {
                         headers: {
@@ -91,7 +91,7 @@ export default function ModifierPost() {
                 description: modifier.description,
                 ...(fileIds.length > 0 && { media: fileIds })
             }
-            const { status } = await axios.put(`http://localhost:1337/api/posts/${id}`, user, {
+            const { status } = await axios.put(`${import.meta.env.VITE_NEON_URL}/api/posts/${id}`, user, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 },
@@ -134,7 +134,7 @@ export default function ModifierPost() {
                                             </p>
                                             {image && (
                                                 <img
-                                                    src={`http://localhost:1337${image}`}
+                                                    src={`${import.meta.env.VITE_NEON_URL}${image}`}
                                                     alt="Illustration"
                                                     className="w-full h-auto mt-4"
                                                 />

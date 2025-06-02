@@ -46,7 +46,7 @@ function Post({ post, toggleFollow, followedPosts, userId }) {
           <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
             <img
               src={
-                "http://localhost:1337" + post.author?.avatar.url ||
+                `${import.meta.env.VITE_NEON_URL}` + post.author?.avatar.url ||
                 "https://randomuser.me/api/portraits/men/1.jpg"
               }
               alt="Profil"
@@ -111,7 +111,7 @@ function Post({ post, toggleFollow, followedPosts, userId }) {
         {post?.media && (
           <div className="rounded-lg overflow-hidden mb-4">
             <img
-              src={"http://localhost:1337" + post.media[0].url}
+              src={`${import.meta.env.VITE_NEON_URL}` + post.media[0].url}
               alt="Illustration"
               className="w-full h-auto"
             />

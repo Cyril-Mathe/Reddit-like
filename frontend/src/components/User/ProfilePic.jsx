@@ -20,7 +20,7 @@ export default function ProfilePic() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const token = localStorage.getItem('token');
     const userid = token ? jwtDecode(token).id : null;
-    const url = `http://localhost:1337/api/users/${userid}?populate=avatar`;
+    const url = `${import.meta.env.VITE_NEON_URL}/api/users/${userid}?populate=avatar`;
 
     // Citations
     const Mearde = {
@@ -104,7 +104,7 @@ export default function ProfilePic() {
                 const formData = new FormData();
                 newimage.forEach(file => formData.append('files', file));
 
-                const img = await axios.post('http://localhost:1337/api/upload',
+                const img = await axios.post(`${import.meta.env.VITE_NEON_URL}/api/upload`,
                     formData,
                     { headers: { "Authorization": `Bearer ${token}` } }
                 );
@@ -133,7 +133,7 @@ export default function ProfilePic() {
         if (!window.confirm('Confirmer le changement de mot de passe ?')) return;
         
         try {
-            await axios.post('http://localhost:1337/api/auth/change-password',
+            await axios.post(`${import.meta.env.VITE_NEON_URL}/api/auth/change-password`,
                 {
                     currentPassword: currentPassword,
                     password: newPassword,
@@ -214,7 +214,7 @@ export default function ProfilePic() {
                                                 <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex-shrink-0">
                                                     {image ? (
                                                         <img
-                                                            src={`http://localhost:1337${image}`}
+                                                            src={`${import.meta.env.VITE_NEON_URL}${image}`}
                                                             alt="Avatar"
                                                             className="w-full h-full object-cover"
                                                         />
@@ -285,7 +285,7 @@ export default function ProfilePic() {
                                                 <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 mb-6">
                                                     {image ? (
                                                         <img
-                                                            src={`http://localhost:1337${image}`}
+                                                            src={`${import.meta.env.VITE_NEON_URL}${image}`}
                                                             alt="Avatar"
                                                             className="w-full h-full object-cover"
                                                         />

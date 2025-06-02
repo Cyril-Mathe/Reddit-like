@@ -10,7 +10,7 @@ function AffichagePost() {
     async function fetchTest() {
         setLoading(true);
         try {
-            const url = "http://localhost:1337/api/posts?populate=*";
+            const url = `${import.meta.env.VITE_NEON_URL}/api/posts?populate=*`;
 
             // Ajout des en-têtes si nécessaire
             const response = await fetch(url, {
@@ -48,8 +48,8 @@ function AffichagePost() {
                         <p>{el.title}</p>
                         <p>{el.username}</p>
                         <p>{el.description}</p>
-                        <img src={"http://localhost:1337" + el.media[0].url}></img>
-                        <img src={"http://localhost:1337" + el.profil_pictures[0].url}></img>
+                        <img src={`${import.meta.env.VITE_NEON_URL}` + el.media[0].url}></img>
+                        <img src={`${import.meta.env.VITE_NEON_URL}` + el.profil_pictures[0].url}></img>
                     </div>)})}
                 </div>
         </div>

@@ -39,7 +39,7 @@ export default function FormPost({ addPost, documentId }) {
         const formData = new FormData();
         image.forEach((file) => formData.append("files", file));
 
-        const img = await axios.post("http://localhost:1337/api/upload", formData, {
+        const img = await axios.post(`${import.meta.env.VITE_NEON_URL}/api/upload`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -58,7 +58,7 @@ export default function FormPost({ addPost, documentId }) {
       };
 
       const { data, status } = await axios.post(
-        "http://localhost:1337/api/posts?populate[0]=author&populate[1]=media&populate[2]=comments&populate[3]=sub",
+        `${import.meta.env.VITE_NEON_URL}/api/posts?populate[0]=author&populate[1]=media&populate[2]=comments&populate[3]=sub`,
         user,
         {
           headers: {

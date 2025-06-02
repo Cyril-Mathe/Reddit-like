@@ -27,7 +27,7 @@ export default function Profile({ user, setUser }) {
     const fetchUserData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:1337/api/users/me?populate=avatar', {
+            const response = await axios.get(`${import.meta.env.VITE_NEON_URL}/api/users/me?populate=avatar`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -58,7 +58,7 @@ export default function Profile({ user, setUser }) {
     // Récupération des posts de l'utilisateur
     const fetchUserPosts = async (userId) => {
         try {
-            const response = await axios.get(`http://localhost:1337/api/posts?filters[author][id][$eq]=${userId}&populate=media`, {
+            const response = await axios.get(`${import.meta.env.VITE_NEON_URL}/api/posts?filters[author][id][$eq]=${userId}&populate=media`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -114,7 +114,7 @@ export default function Profile({ user, setUser }) {
             const formData = new FormData();
             formData.append('files', newAvatar);
             
-            const uploadRes = await axios.post('http://localhost:1337/api/upload', formData, {
+            const uploadRes = await axios.post(`${import.meta.env.VITE_NEON_URL}/api/upload`, formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -152,7 +152,7 @@ export default function Profile({ user, setUser }) {
                 updateData.avatar = avatarId;
             }
             
-            const response = await axios.put('http://localhost:1337/api/users/me', updateData, {
+            const response = await axios.put(`${import.meta.env.VITE_NEON_URL}/api/users/me`, updateData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -206,7 +206,7 @@ export default function Profile({ user, setUser }) {
                                         >
                                             {avatar ? (
                                                 <img 
-                                                    src={avatar.startsWith('data:') ? avatar : `http://localhost:1337${avatar}`} 
+                                                    src={avatar.startsWith('data:') ? avatar : `${import.meta.env.VITE_NEON_URL}${avatar}`} 
                                                     alt="Avatar" 
                                                     className="w-full h-full object-cover"
                                                 />
@@ -318,7 +318,7 @@ export default function Profile({ user, setUser }) {
                                                 {post.media && post.media.length > 0 && (
                                                     <div className="mb-3 rounded-lg overflow-hidden cursor-pointer" onClick={() => navigateToPostDetails(post.id)}>
                                                         <img
-                                                            src={`http://localhost:1337${post.media[0].url}`}
+                                                            src={`${import.meta.env.VITE_NEON_URL}${post.media[0].url}`}
                                                             alt="Illustration"
                                                             className="w-full h-auto max-h-64 object-cover"
                                                         />

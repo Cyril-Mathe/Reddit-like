@@ -42,7 +42,7 @@ function Auth({ setUser }) {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:1337/api/auth/local", {
+      const response = await fetch(`${import.meta.env.VITE_NEON_URL}/api/auth/local`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
