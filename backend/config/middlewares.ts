@@ -5,7 +5,7 @@ export default [
   {
     name: 'strapi::cors',
     config: {
-      origin: ['http://localhost:3030'], // URL de votre frontend
+      origin: ['https://reddit-like-steel.vercel.app/login'], // URL de votre frontend
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
       headers: ['Content-Type', 'Authorization'],
       credentials: true, // Autoriser les cookies

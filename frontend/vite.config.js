@@ -10,5 +10,13 @@ export default defineConfig({
   server : {
     port: 3030,
     allowedHosts: true
-  }
+  },
+  build: {
+    rollupOptions: {
+    input: {
+    home: '/index.html',
+    privacyPolicy: '/pages/privacy-policy.html',
+},
+},
+},
 })
