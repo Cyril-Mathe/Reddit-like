@@ -6,7 +6,7 @@ import { fetchPosts } from "../utils/Fetchapi";
 import SyncLoader from "react-spinners/SyncLoader";
 import { jwtDecode } from "jwt-decode";
 
-function Homepage({ user, setUser }) {
+function Homepage({ setUser }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,8 +15,6 @@ function Homepage({ user, setUser }) {
   const [citation, setCitation] = useState("");
   const token = localStorage.getItem("token");
   const userId = token ? jwtDecode(token).id : null;
-  const username = token ? jwtDecode(token).username : null;
-
 
   // Citations
   const Mearde = {

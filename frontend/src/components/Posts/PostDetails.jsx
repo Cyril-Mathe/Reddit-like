@@ -88,6 +88,7 @@ export default function PostDetails() {
 
       setComments((prev) => prev.filter((c) => c.id !== commentId));
     } catch (err) {
+      console.log(err)
       toast.warning("Vous ne pouvez pas supprimer ce commentaire !");
     }
   }
@@ -118,6 +119,7 @@ export default function PostDetails() {
         setEditCommentId(null);
       }
     } catch (err) {
+      console.log(err)
       toast.warning("Vous ne pouvez pas modifier ce commentaire !");
     }
   }
